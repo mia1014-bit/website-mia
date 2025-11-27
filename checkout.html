@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Keranjang & Checkout 🛒</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #fff5f7 0%, #ffe8ee 100%);
+        min-height: 100vh;
+        position: relative;
+      }
+
+      /* === ANIMASI KUE JATUH === */
+      .emoji-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .emoji-container span {
+        position: absolute;
+        top: -10vh;
+        font-size: 2rem;
+        animation: fall linear infinite;
+        opacity: 0.4;
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(110vh);
+        }
+      }
+
+      .emoji-container span:nth-child(1) {
+        left: 10%;
+        animation-duration: 10s;
+        animation-delay: 0s;
+        font-size: 2.5rem;
+      }
+      .emoji-container span:nth-child(2) {
+        left: 20%;
+        animation-duration: 8s;
+        animation-delay: 2s;
+      }
+      .emoji-container span:nth-child(3) {
+        left: 30%;
+        animation-duration: 12s;
+        animation-delay: 4s;
+      }
+      .emoji-container span:nth-child(4) {
+        left: 40%;
+        animation-duration: 7s;
+        animation-delay: 1s;
+        font-size: 2.2rem;
+      }
+      .emoji-container span:nth-child(5) {
+        left: 50%;
+        animation-duration: 15s;
+        animation-delay: 5s;
+      }
+      .emoji-container span:nth-child(6) {
+        left: 60%;
+        animation-duration: 9s;
+        animation-delay: 3s;
+        font-size: 1.8rem;
+      }
+      .emoji-container span:nth-child(7) {
+        left: 70%;
+        animation-duration: 11s;
+        animation-delay: 0s;
+      }
+      .emoji-container span:nth-child(8) {
+        left: 80%;
+        animation-duration: 13s;
+        animation-delay: 2s;
+        font-size: 2.4rem;
+      }
+      .emoji-container span:nth-child(9) {
+        left: 90%;
+        animation-duration: 6s;
+        animation-delay: 4s;
+      }
+      .emoji-container span:nth-child(10) {
+        left: 5%;
+        animation-duration: 14s;
+        animation-delay: 6s;
+      }
+
+      /* === HEADER PREMIUM === */
+      header {
+        background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+        padding: 25px 40px;
+        position: relative;
+        z-index: 10;
+        box-shadow: 0 10px 40px rgba(255, 64, 129, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      header h1 {
+        font-family: "Poppins", sans-serif;
+        color: #fff;
+        text-align: center;
+        font-size: 2.2em;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+        flex: 1;
+      }
+
+      .back-btn {
+        position: absolute;
+        top: 50%;
+        left: 40px;
+        transform: translateY(-50%);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 12px 24px;
+        border-radius: 50px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
+        font-size: 0.95em;
+      }
+
+      .back-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-50%) translateX(-3px);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      /* === CONTAINER === */
+      .container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 0 20px;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* === EMPTYCART MESSAGE LUCU === */
+      .empty-cart-message {
+        text-align: center;
+        padding: 60px 40px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 30px;
+        box-shadow: 0 20px 60px rgba(255, 64, 129, 0.2);
+        border: 3px dashed #ff8fab;
+        animation: float 3s ease-in-out infinite;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .empty-cart-message .empty-icon {
+        font-size: 5em;
+        margin-bottom: 20px;
+        animation: swing 2s ease-in-out infinite;
+      }
+
+      @keyframes swing {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(-10deg);
+        }
+        75% {
+          transform: rotate(10deg);
+        }
+      }
+
+      .empty-cart-message h3 {
+        font-size: 2em;
+        color: #ff4081;
+        margin-bottom: 15px;
+        font-weight: 700;
+      }
+
+      .empty-cart-message p {
+        font-size: 1.2em;
+        color: #666;
+        margin-bottom: 30px;
+      }
+
+      .empty-cart-message a {
+        text-decoration: none;
+        color: #fff;
+        background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1.1em;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(255, 64, 129, 0.3);
+        display: inline-block;
+      }
+
+      .empty-cart-message a:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(255, 64, 129, 0.4);
+      }
+
+      /* === CHECKOUT LIST === */
+      .checkout-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .checkout-item {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 20px;
+        border-radius: 25px;
+        box-shadow: 0 10px 40px rgba(255, 64, 129, 0.15);
+        border: 1px solid rgba(255, 107, 157, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .checkout-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 15px 50px rgba(255, 64, 129, 0.2);
+      }
+
+      .checkout-item img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .checkout-item-info {
+        flex: 1;
+      }
+
+      .checkout-item-info h4 {
+        color: #ff4081;
+        font-size: 1.3em;
+        margin-bottom: 8px;
+        font-weight: 700;
+      }
+
+      .checkout-item-info p {
+        color: #666;
+        font-size: 1.1em;
+        font-weight: 600;
+      }
+
+      .checkout-item button {
+        background: linear-gradient(135deg, #e91e63, #c2185b);
+        color: #fff;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.95em;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 20px rgba(233, 30, 99, 0.3);
+        font-family: "Poppins", sans-serif;
+      }
+
+      .checkout-item button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(233, 30, 99, 0.4);
+      }
+
+      /* === CHECKOUT SUMMARY === */
+      .checkout-summary {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 35px;
+        border-radius: 25px;
+        box-shadow: 0 15px 50px rgba(255, 64, 129, 0.2);
+        border: 1px solid rgba(255, 107, 157, 0.1);
+      }
+
+      .checkout-summary h3 {
+        color: #ff4081;
+        text-align: center;
+        font-size: 1.8em;
+        margin-bottom: 25px;
+        font-weight: 700;
+      }
+
+      .checkout-summary label {
+        font-weight: 600;
+        margin-top: 20px;
+        color: #333;
+        display: block;
+        margin-bottom: 10px;
+        font-size: 1em;
+      }
+
+      .checkout-summary select,
+      .checkout-summary input {
+        padding: 14px 20px;
+        border-radius: 15px;
+        border: 3px solid rgba(255, 107, 157, 0.3);
+        font-size: 1em;
+        width: 100%;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+        background: #fff;
+        transition: all 0.3s ease;
+      }
+
+      .checkout-summary select:focus,
+      .checkout-summary input:focus {
+        outline: none;
+        border-color: #ff6b9d;
+        box-shadow: 0 5px 20px rgba(255, 64, 129, 0.15);
+        transform: translateY(-2px);
+      }
+
+      #total {
+        background: linear-gradient(135deg, #fff 0%, #fffafc 100%);
+        padding: 20px;
+        border-radius: 15px;
+        border: 2px dashed #ff8fab;
+        font-weight: 600;
+        font-size: 1.1em;
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      #voucherSection {
+        background: linear-gradient(135deg, #fffafc 0%, #fff 100%);
+        padding: 20px;
+        border-radius: 15px;
+        border: 2px solid rgba(255, 107, 157, 0.2);
+        margin-top: 20px;
+      }
+
+      #applyVoucher {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 50px;
+        background: linear-gradient(135deg, #4caf50, #45a049);
+        color: #fff;
+        font-size: 1em;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 20px rgba(76, 175, 80, 0.3);
+        font-family: "Poppins", sans-serif;
+      }
+
+      #applyVoucher:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(76, 175, 80, 0.4);
+      }
+
+      #voucherMsg {
+        font-weight: 600;
+        margin-top: 15px;
+        text-align: center;
+        font-size: 0.95em;
+      }
+
+      #payBtn {
+        width: 100%;
+        padding: 18px;
+        border: none;
+        border-radius: 50px;
+        background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+        color: #fff;
+        font-size: 1.2em;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 25px;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(255, 64, 129, 0.3);
+        font-family: "Poppins", sans-serif;
+      }
+
+      #payBtn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(255, 64, 129, 0.4);
+      }
+
+      #payBtn:active {
+        transform: translateY(0);
+      }
+
+      /* === RESPONSIVE === */
+      @media (max-width: 768px) {
+        header {
+          padding: 20px;
+        }
+
+        header h1 {
+          font-size: 1.6em;
+        }
+
+        .back-btn {
+          left: 15px;
+          padding: 10px 20px;
+          font-size: 0.9em;
+        }
+
+        .container {
+          padding: 0 15px;
+        }
+
+        .checkout-item {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .checkout-item img {
+          width: 120px;
+          height: 120px;
+        }
+
+        .checkout-summary {
+          padding: 25px 20px;
+        }
+
+        .empty-cart-message {
+          padding: 40px 25px;
+        }
+
+        .empty-cart-message .empty-icon {
+          font-size: 4em;
+        }
+
+        .empty-cart-message h3 {
+          font-size: 1.6em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Animasi Kue Jatuh -->
+    <div class="emoji-container">
+      <span>🍰</span>
+      <span>🎂</span>
+      <span>🧁</span>
+      <span>🍰</span>
+      <span>🎂</span>
+      <span>🧁</span>
+      <span>🍰</span>
+      <span>🎂</span>
+      <span>🧁</span>
+      <span>🍰</span>
+    </div>
+    <!-- Header Premium -->
+    <header>
+      <a href="katalog.html" class="back-btn">⬅️ Kembali</a>
+      <h1>🛒 Keranjang Belanja 💖</h1>
+    </header>
+
+    <div class="container">
+      <div id="checkoutList" class="checkout-list"></div>
+
+      <div id="checkoutSummary" class="checkout-summary" style="display: none">
+        <h3>💰 Rincian Pembayaran</h3>
+        <div id="total"></div>
+
+        <label for="paymentType">🏦 Metode Pembayaran:</label>
+        <select id="paymentType">
+          <option value="Tunai">💵 Tunai</option>
+          <option value="Transfer">🏧 Transfer Bank</option>
+          <option value="Dompet Digital">📱 Dompet Digital</option>
+        </select>
+
+        <div id="paymentDetail" style="display: none">
+          <label for="paymentOption">Pilih Bank / Dompet Digital:</label>
+          <select id="paymentOption"></select>
+        </div>
+
+        <div id="voucherSection">
+          <label for="voucherCode">🎟️ Kode Promo (Opsional):</label>
+          <input type="text" id="voucherCode" placeholder="Contoh: PROMO21" />
+          <button id="applyVoucher">✨ Terapkan Voucher</button>
+          <p id="voucherMsg"></p>
+        </div>
+
+        <button id="payBtn">💳 Bayar Sekarang</button>
+      </div>
+    </div>
+
+    <script type="module">
+      import { db, auth } from "./firebase-config.js";
+      import {
+        collection,
+        addDoc,
+        serverTimestamp,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      const checkoutList = document.getElementById("checkoutList");
+      const checkoutSummary = document.getElementById("checkoutSummary");
+      const totalEl = document.getElementById("total");
+      const paymentType = document.getElementById("paymentType");
+      const paymentDetail = document.getElementById("paymentDetail");
+      const paymentOption = document.getElementById("paymentOption");
+      const voucherCode = document.getElementById("voucherCode");
+      const applyVoucher = document.getElementById("applyVoucher");
+      const voucherMsg = document.getElementById("voucherMsg");
+      const payBtn = document.getElementById("payBtn");
+
+      const bankOptions = ["BCA", "BRI", "Mandiri"];
+      const eWalletOptions = ["Gopay", "OVO", "Dana"];
+
+      const vouchers = {
+        PROMO21: { discount: 5, minPrice: 25000 },
+        PROMO50: { discount: 10, minPrice: 50000 },
+        PROMO100: { discount: 20, minPrice: 100000 },
+        PROMO50PLUS: { discount: 15, minPrice: 50000 },
+      };
+
+      let appliedDiscount = 0;
+
+      function renderCart() {
+        checkoutList.innerHTML = "";
+        if (cart.length === 0) {
+          checkoutList.innerHTML = `
+                <div class="empty-cart-message">
+                    <div class="empty-icon">🛒</div>
+                    <h3>Keranjang Kosong!</h3>
+                    <p>Yuk mulai belanja kue favorit kamu 🍰✨</p>
+                    <a href="katalog.html">🏠 Kembali ke Katalog</a>
+                </div>
+            `;
+          checkoutSummary.style.display = "none";
+          return;
+        }
+
+        cart.forEach((item, i) => {
+          const div = document.createElement("div");
+          div.className = "checkout-item";
+          div.innerHTML = `
+                <img src="${item.img}" alt="${item.name}">
+                <div class="checkout-item-info">
+                    <h4>${item.name}</h4>
+                    <p>💰 Rp ${item.price.toLocaleString("id-ID")}</p>
+                </div>
+                <button data-index="${i}">🗑️ Hapus</button>
+            `;
+          checkoutList.appendChild(div);
+        });
+
+        renderTotal();
+        checkoutSummary.style.display = "block";
+
+        document.querySelectorAll(".checkout-item button").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const idx = parseInt(btn.getAttribute("data-index"));
+            cart.splice(idx, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            renderCart();
+          });
+        });
+      }
+
+      function renderTotal() {
+        const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+        const discountAmount = Math.round((subtotal * appliedDiscount) / 100);
+        const total = subtotal - discountAmount;
+        totalEl.innerHTML = `
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div>Subtotal: <strong>Rp ${subtotal.toLocaleString(
+                  "id-ID"
+                )}</strong></div>
+                <div style="color: #4caf50;">Diskon: <strong>- Rp ${discountAmount.toLocaleString(
+                  "id-ID"
+                )}</strong></div>
+                <div style="font-size: 1.3em; color: #ff4081; margin-top: 10px;">Total: <strong>Rp ${total.toLocaleString(
+                  "id-ID"
+                )}</strong></div>
+            </div>
+        `;
+      }
+
+      paymentType.addEventListener("change", () => {
+        if (paymentType.value === "Transfer") {
+          paymentDetail.style.display = "block";
+          paymentOption.innerHTML = "";
+          bankOptions.forEach((bank) => {
+            const opt = document.createElement("option");
+            opt.value = bank;
+            opt.textContent = `🏦 ${bank}`;
+            paymentOption.appendChild(opt);
+          });
+        } else if (paymentType.value === "Dompet Digital") {
+          paymentDetail.style.display = "block";
+          paymentOption.innerHTML = "";
+          eWalletOptions.forEach((wallet) => {
+            const opt = document.createElement("option");
+            opt.value = wallet;
+            opt.textContent = `📱 ${wallet}`;
+            paymentOption.appendChild(opt);
+          });
+        } else {
+          paymentDetail.style.display = "none";
+          paymentOption.innerHTML = "";
+        }
+      });
+
+      applyVoucher.addEventListener("click", () => {
+        const code = voucherCode.value.trim().toUpperCase();
+        const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+        if (vouchers[code]) {
+          if (subtotal >= vouchers[code].minPrice) {
+            appliedDiscount = vouchers[code].discount;
+            voucherMsg.style.color = "#4caf50";
+            voucherMsg.textContent = `✅ Voucher valid! Diskon ${appliedDiscount}% diterapkan.`;
+          } else {
+            appliedDiscount = 0;
+            voucherMsg.style.color = "#e91e63";
+            voucherMsg.textContent = `❌ Minimum belanja Rp ${vouchers[
+              code
+            ].minPrice.toLocaleString("id-ID")} belum tercapai`;
+          }
+        } else {
+          appliedDiscount = 0;
+          voucherMsg.style.color = "#e91e63";
+          voucherMsg.textContent = "❌ Kode voucher tidak valid";
+        }
+        renderTotal();
+      });
+
+      payBtn.addEventListener("click", async () => {
+        if (cart.length === 0) {
+          alert("Keranjang kosong!");
+          return;
+        }
+
+        const user = auth.currentUser;
+        if (!user) {
+          alert("Anda harus login untuk melakukan checkout!");
+          window.location.href = "index.html";
+          return;
+        }
+
+        let method = paymentType.value;
+        const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+        const discountAmount = Math.round((subtotal * appliedDiscount) / 100);
+        const totalPayment = subtotal - discountAmount;
+
+        try {
+          const orderItems = cart.map((item) => ({
+            name: item.name,
+            price: item.price,
+            img: item.img,
+          }));
+
+          await addDoc(collection(db, "orders"), {
+            userId: user.uid,
+            userEmail: user.email,
+            items: orderItems,
+            total: totalPayment,
+            paymentMethod: method,
+            createdAt: serverTimestamp(),
+            discount: discountAmount,
+          });
+
+          alert(
+            `✅ Pembayaran berhasil!\n💰 Total: Rp ${totalPayment.toLocaleString(
+              "id-ID"
+            )}\n\nTerima kasih sudah berbelanja! 🎉`
+          );
+
+          cart = [];
+          localStorage.setItem("cart", JSON.stringify(cart));
+          renderCart();
+        } catch (error) {
+          console.error("Error placing order: ", error);
+          alert("Terjadi kesalahan saat membuat pesanan. Silakan coba lagi.");
+        }
+      });
+
+      renderCart();
+    </script>
+  </body>
+</html>

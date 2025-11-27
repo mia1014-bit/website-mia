@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Pelanggan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background: #fff0f5;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        background: #ffeb3b;
+        color: #333;
+        padding: 20px;
+        text-align: center;
+      }
+
+      h1 {
+        margin: 0;
+      }
+
+      .container {
+        padding: 20px;
+      }
+
+      .product-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+
+      .product-item {
+        background: #fff;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .product-item:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+      }
+
+      .product-item img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+
+      .product-item h3 {
+        margin: 10px 0 5px 0;
+        font-size: 1.2em;
+        color: #ff4081;
+      }
+
+      .product-item p {
+        margin: 5px 0;
+        font-size: 0.95em;
+        color: #333;
+      }
+
+      .button-group {
+        margin-top: 10px;
+      }
+
+      .button-group button {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.95em;
+        background: #ff4081;
+        color: #fff;
+        width: 100%;
+      }
+
+      .button-group button:hover {
+        opacity: 0.9;
+      }
+
+      .checkout-btn {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .checkout-btn button {
+        padding: 12px 20px;
+        background: #ff4081;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.05em;
+        cursor: pointer;
+      }
+
+      .checkout-btn button:hover {
+        opacity: 0.9;
+      }
+
+      @media (max-width: 600px) {
+        .product-list {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Katalog Produk Toko Kue</h1>
+    </header>
+
+    <div class="container">
+      <div id="customerProducts" class="product-list"></div>
+
+      <div class="checkout-btn">
+        <button onclick="window.location.href='checkout.html'">
+          Lihat Keranjang / Checkout
+        </button>
+      </div>
+    </div>
+
+    <script type="module" src="js/katalog.js"></script>
+  </body>
+</html>

@@ -1,0 +1,91 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #ffeb3b, #ff4081);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-container {
+    background: rgba(255,255,255,0.95);
+    padding: 40px;
+    border-radius: 20px;
+    color: #333;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #ff4081;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.login-container button:hover {
+    background-color: #e91e63;
+}
+
+/* Produk */
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px;
+}
+
+.product-item {
+    text-align: center;
+    background: #fff;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    width: 180px;
+}
+
+.product-item img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.product-item .desc {
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #333;
+}
+
+.product-item .actions button {
+    margin: 5px 0;
+    width: 100%;
+    padding: 5px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+.product-item .actions button.edit { background-color: #4caf50; color: #fff; }
+.product-item .actions button.edit:hover { background-color: #45a049; }
+
+.product-item .actions button.delete { background-color: #f44336; color: #fff; }
+.product-item .actions button.delete:hover { background-color: #e53935; }
+
+.product-item .actions button.price { background-color: #ff9800; color: #fff; }
+.product-item .actions button.price:hover { background-color: #fb8c00; }

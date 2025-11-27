@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Toko Kue 🍰</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #fff5f7 0%, #ffe8ee 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        padding: 20px;
+      }
+
+      /* === ANIMASI KUE JATUH === */
+      .emoji-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .emoji-container span {
+        position: absolute;
+        top: -10vh;
+        font-size: 2rem;
+        animation: fall linear infinite;
+        opacity: 0.4;
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(110vh);
+        }
+      }
+
+      .emoji-container span:nth-child(1) {
+        left: 10%;
+        animation-duration: 10s;
+        animation-delay: 0s;
+        font-size: 2.5rem;
+      }
+      .emoji-container span:nth-child(2) {
+        left: 20%;
+        animation-duration: 8s;
+        animation-delay: 2s;
+      }
+      .emoji-container span:nth-child(3) {
+        left: 30%;
+        animation-duration: 12s;
+        animation-delay: 4s;
+      }
+      .emoji-container span:nth-child(4) {
+        left: 40%;
+        animation-duration: 7s;
+        animation-delay: 1s;
+        font-size: 2.2rem;
+      }
+      .emoji-container span:nth-child(5) {
+        left: 50%;
+        animation-duration: 15s;
+        animation-delay: 5s;
+      }
+      .emoji-container span:nth-child(6) {
+        left: 60%;
+        animation-duration: 9s;
+        animation-delay: 3s;
+        font-size: 1.8rem;
+      }
+      .emoji-container span:nth-child(7) {
+        left: 70%;
+        animation-duration: 11s;
+        animation-delay: 0s;
+      }
+      .emoji-container span:nth-child(8) {
+        left: 80%;
+        animation-duration: 13s;
+        animation-delay: 2s;
+        font-size: 2.4rem;
+      }
+      .emoji-container span:nth-child(9) {
+        left: 90%;
+        animation-duration: 6s;
+        animation-delay: 4s;
+      }
+      .emoji-container span:nth-child(10) {
+        left: 5%;
+        animation-duration: 14s;
+        animation-delay: 6s;
+      }
+
+      /* === LOGIN CONTAINER PREMIUM === */
+      .login-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 35px 40px;
+        border-radius: 30px;
+        box-shadow: 0 20px 60px rgba(255, 64, 129, 0.25);
+        width: 100%;
+        max-width: 400px;
+        position: relative;
+        z-index: 1;
+        border: 1px solid rgba(255, 107, 157, 0.2);
+        animation: slideUp 0.6s ease;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* === HEADER DENGAN IKON === */
+      .login-header {
+        text-align: center;
+        margin-bottom: 25px;
+      }
+
+      .login-icon {
+        font-size: 3em;
+        margin-bottom: 10px;
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .login-container h1 {
+        color: #ff4081;
+        font-size: 1.7em;
+        font-weight: 700;
+        margin-bottom: 5px;
+      }
+
+      .login-container .subtitle {
+        color: #666;
+        font-size: 0.9em;
+        font-weight: 400;
+      }
+
+      /* === FORM STYLING PREMIUM === */
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .input-group {
+        position: relative;
+      }
+
+      .input-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.2em;
+        z-index: 1;
+      }
+
+      input {
+        width: 100%;
+        padding: 13px 18px 13px 48px;
+        border-radius: 50px;
+        border: 2px solid rgba(255, 107, 157, 0.3);
+        background: rgba(255, 255, 255, 0.8);
+        font-size: 0.95em;
+        font-family: "Poppins", sans-serif;
+        transition: all 0.3s ease;
+        color: #333;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #ff6b9d;
+        background: #fff;
+        box-shadow: 0 5px 20px rgba(255, 64, 129, 0.15);
+        transform: translateY(-2px);
+      }
+
+      input::placeholder {
+        color: #aaa;
+      }
+
+      /* === BUTTON PREMIUM === */
+      button[type="submit"] {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 50px;
+        background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+        color: #fff;
+        font-size: 1em;
+        font-weight: 700;
+        font-family: "Poppins", sans-serif;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(255, 64, 129, 0.3);
+        margin-top: 5px;
+      }
+
+      button[type="submit"]:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(255, 64, 129, 0.4);
+      }
+
+      button[type="submit"]:active {
+        transform: translateY(0);
+      }
+
+      /* === SWITCH TEXT === */
+      #switchText {
+        text-align: center;
+        margin-top: 20px;
+        color: #666;
+        font-size: 0.9em;
+      }
+
+      #switchText a {
+        color: #ff4081;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      #switchText a:hover {
+        color: #c44569;
+        text-decoration: underline;
+      }
+
+      /* === TOAST NOTIFICATION === */
+      .toast-notification {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 18px 35px;
+        border-radius: 50px;
+        color: #fff;
+        font-weight: 600;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(10px);
+      }
+
+      .toast-notification.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, -10px);
+      }
+
+      .toast-notification.success {
+        background: linear-gradient(135deg, #4caf50, #45a049);
+      }
+
+      .toast-notification.error {
+        background: linear-gradient(135deg, #e91e63, #c2185b);
+      }
+
+      /* === DECORATIVE ELEMENTS === */
+      .deco-circle {
+        position: absolute;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 107, 157, 0.1),
+          rgba(196, 69, 105, 0.1)
+        );
+        z-index: 0;
+      }
+
+      .deco-circle-1 {
+        width: 200px;
+        height: 200px;
+        top: -100px;
+        right: -100px;
+      }
+
+      .deco-circle-2 {
+        width: 150px;
+        height: 150px;
+        bottom: -75px;
+        left: -75px;
+      }
+
+      /* === RESPONSIVE === */
+      @media (max-width: 768px) {
+        .login-container {
+          padding: 30px 25px;
+          max-width: 360px;
+        }
+
+        .login-container h1 {
+          font-size: 1.5em;
+        }
+
+        .login-icon {
+          font-size: 2.5em;
+        }
+
+        input {
+          padding: 12px 16px 12px 45px;
+          font-size: 0.9em;
+        }
+
+        button[type="submit"] {
+          padding: 13px;
+          font-size: 0.95em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Animasi Kue Jatuh -->
+    <div class="emoji-container">
+      <span>🍰</span>
+      <span>🎂</span>
+      <span>🧁</span>
+      <span>🍰</span>
+      <span>🎂</span>
+      <span>🧁</span>
+      <span>🍰</span>
+      <span>🎂</span>
+      <span>🧁</span>
+      <span>🍰</span>
+    </div>
+
+    <!-- Decorative Circles -->
+    <div class="deco-circle deco-circle-1"></div>
+    <div class="deco-circle deco-circle-2"></div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-notification"></div>
+
+    <!-- Login Container -->
+    <div class="login-container">
+      <div class="login-header">
+        <div class="login-icon">🍰</div>
+        <h1 id="formTitle">Selamat Datang! 👋</h1>
+        <p class="subtitle">Login untuk mulai berbelanja kue favorit</p>
+      </div>
+
+      <form id="loginForm">
+        <!-- Name Input (Hidden by default) -->
+        <div class="input-group" id="nameGroup" style="display: none">
+          <span class="input-icon">👤</span>
+          <input type="text" id="name" placeholder="Nama Lengkap" />
+        </div>
+
+        <!-- Email Input -->
+        <div class="input-group">
+          <span class="input-icon">📧</span>
+          <input type="email" id="email" placeholder="Email" required />
+        </div>
+
+        <!-- Password Input -->
+        <div class="input-group">
+          <span class="input-icon">🔒</span>
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+          />
+        </div>
+
+        <!-- Confirm Password (Hidden by default) -->
+        <div class="input-group" id="confirmGroup" style="display: none">
+          <span class="input-icon">🔑</span>
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Konfirmasi Password"
+          />
+        </div>
+
+        <button type="submit" id="submitBtn">
+          <span id="btnText">🚀 Login Sekarang</span>
+        </button>
+      </form>
+
+      <p id="switchText">
+        Belum punya akun?
+        <a href="#" id="switchToRegister">Daftar di sini ✨</a>
+      </p>
+    </div>
+
+    <script type="module" src="./js/firebase-config.js"></script>
+    <script type="module" src="./js/login.js"></script>
+  </body>
+</html>
